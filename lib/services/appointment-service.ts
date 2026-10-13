@@ -117,7 +117,7 @@ export function createAppointmentBooking(
   // Expiration: 48 hours from appointment booking
   const expirationDate = new Date(Date.now() + 48 * 60 * 60 * 1000).toISOString();
 
-  let reportSharingStatus = {
+  let reportSharingStatus: AppointmentConfirmation['reportSharingStatus'] = {
     consented: false,
     shared: false,
     auditLog: 'Patient did not authorize report sharing. Consultation booked without prior report access.',

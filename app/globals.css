@@ -167,3 +167,20 @@ html.light ::-webkit-scrollbar-thumb {
     color: #0f172a !important;
   }
 }
+
+@keyframes scan {
+  0% {
+    top: -20%;
+    opacity: 0;
+  }
+  15% {
+    opacity: 1;
+  }
+  85% {
+    opacity: 1;
+  }
+  100% {
+    top: 100%;
+    opacity: 0;
+  }
+}

@@ -37,8 +37,8 @@ export function formatReportTextForWhatsApp(summary: ReportAnalysisSummary): str
         ? '🔻 Below Range'
         : '⚠️ Review Required';
 
-    const valStr = `${item.numericValue ?? item.rawValueText} ${item.unit || ''}`.trim();
-    const rangeStr = item.referenceRangeText ? `(Ref: ${item.referenceRangeText})` : '';
+    const valStr = `${item.parsedNumericValue ?? item.rawValueText} ${item.parsedUnit || ''}`.trim();
+    const rangeStr = item.rawRangeText ? `(Ref: ${item.rawRangeText})` : '';
 
     lines.push(`• *${item.rawTestName}:* ${valStr} ${rangeStr} — ${statusIcon}`);
   }
@@ -50,9 +50,9 @@ export function formatReportTextForWhatsApp(summary: ReportAnalysisSummary): str
   lines.push(``);
   lines.push(`*Questions for Doctor:*`);
   const firstQuestions = summary.items
-    .filter((i) => i.explanation?.questionsForDoctor && i.explanation.questionsForDoctor.length > 0)
+    .filter((i) => i.explanation?.neutralDoctorQuestions && i.explanation.neutralDoctorQuestions.length > 0)
     .slice(0, 2)
-    .map((i) => `• ${i.explanation!.questionsForDoctor[0]}`);
+    .map((i) => `• ${i.explanation!.neutralDoctorQuestions[0]}`);
 
   if (firstQuestions.length > 0) {
     lines.push(...firstQuestions);
@@ -97,17 +97,17 @@ export function generatePrintableReportHtml(summary: ReportAnalysisSummary): str
           ? '<span style="color: #6b7280; font-style: italic;">No Verified Range</span>'
           : '<span style="color: #dc2626; font-weight: bold;">Review Required</span>';
 
-      const val = `${item.numericValue ?? item.rawValueText} ${item.unit || ''}`.trim();
-      const range = item.referenceRangeText || 'N/A';
-      const rangeSource = item.referenceRangeOrigin === 'REPORT_PRINTED'
+      const val = `${item.parsedNumericValue ?? item.rawValueText} ${item.parsedUnit || ''}`.trim();
+      const range = item.rawRangeText || 'N/A';
+      const rangeSource = item.referenceRangeOrigin?.sourceType === 'REPORT_PRINTED'
         ? 'Report Printed'
-        : item.referenceRangeOrigin === 'CURATED_INDIAN_FALLBACK'
-        ? 'Curated Indian Fallback'
+        : item.referenceRangeOrigin?.sourceType === 'CURATED_INDIAN_FALLBACK'
+        ? 'Curated Indian Reference'
         : 'None';
 
-      const explanation = item.explanation ? item.explanation.simpleExplanation : '';
-      const doctorQ = item.explanation?.questionsForDoctor?.[0]
-        ? `<div style="font-size: 11px; color: #4b5563; margin-top: 4px;"><strong>Q for Doctor:</strong> ${item.explanation.questionsForDoctor[0]}</div>`
+      const explanation = item.explanation ? (item.explanation.whatItMeasures || item.explanation.reportedResultSummary) : '';
+      const doctorQ = item.explanation?.neutralDoctorQuestions?.[0]
+        ? `<div style="font-size: 11px; color: #4b5563; margin-top: 4px;"><strong>Q for Doctor:</strong> ${item.explanation.neutralDoctorQuestions[0]}</div>`
         : '';
 
       return `

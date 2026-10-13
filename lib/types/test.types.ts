@@ -33,8 +33,8 @@ export interface ReferenceRangeOrigin {
   lowValue?: number;
   highValue?: number;
   comparator?: '<' | '<=' | '>' | '>=' | '=' | 'RANGE';
-  unit: string;
-  rawRangeText: string;
+  unit?: string;
+  rawRangeText?: string;
 }
 
 export interface CuratedTestDefinition {

@@ -97,13 +97,15 @@ Return ONLY the JSON object.`;
         // Strip markdown code fences if present
         const cleanJson = geminiText.replace(/```json/g, '').replace(/```/g, '').trim();
         const parsed = JSON.parse(cleanJson);
-        if (parsed.simpleExplanation) {
+        if (parsed.simpleExplanation || parsed.whatItMeasures) {
           return {
             canonicalId: param.canonicalId,
-            simpleExplanation: parsed.simpleExplanation,
-            whatItMeasures: param.rawTestName,
-            clinicalContext: parsed.clinicalContext || 'Evaluated as part of routine laboratory investigations.',
-            questionsForDoctor: Array.isArray(parsed.questionsForDoctor) ? parsed.questionsForDoctor : ['What does this parameter mean for my general health?'],
+            testName: param.rawTestName,
+            whatItMeasures: parsed.whatItMeasures || parsed.simpleExplanation || param.rawTestName,
+            reportedResultSummary: `Reported value: ${param.rawValueText} ${param.parsedUnit || ''}`,
+            rangeContext: param.rawRangeText ? `Printed laboratory range: ${param.rawRangeText}` : 'Evaluated against clinical guidelines',
+            neutralDoctorQuestions: Array.isArray(parsed.questionsForDoctor) ? parsed.questionsForDoctor : ['What does this parameter mean for my general health?'],
+            limitationsNote: 'Laboratory values are only meaningful in the context of an overall clinical evaluation by your doctor.',
           };
         }
       }

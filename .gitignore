@@ -7,6 +7,9 @@ node_modules/
 dist/
 build/
 out/
+.next/
+.vercel/
+*.tsbuildinfo
 
 # Environment files
 .env

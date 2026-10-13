@@ -36,12 +36,13 @@ function ResultsContent() {
   const loadData = (fixture: string) => {
     setActiveFixture(fixture);
 
-    // First try localStorage if matching active fixture
+    // First try localStorage if matching active fixture or if uploaded
     if (typeof window !== 'undefined') {
       const savedFixture = localStorage.getItem('saarthi_active_fixture_id');
       const savedRowsStr = localStorage.getItem('saarthi_active_candidate_rows');
+      const uploadedName = localStorage.getItem('saarthi_uploaded_report_name') || 'Uploaded_Clinical_Report.pdf';
 
-      if (savedFixture === fixture && savedRowsStr) {
+      if ((fixture === 'uploaded' || savedFixture === fixture || (!savedFixture && fixture === 'uploaded')) && savedRowsStr) {
         try {
           const parsed = JSON.parse(savedRowsStr) as CandidateExtractionRow[];
           if (Array.isArray(parsed) && parsed.length > 0) {
@@ -50,6 +51,8 @@ function ResultsContent() {
                 ? 'CBC_Report_DrLalPathLabs.pdf'
                 : fixture === 'uncertain'
                 ? 'Ambiguous_Faint_Scan.pdf'
+                : fixture === 'uploaded'
+                ? uploadedName
                 : 'Metabolic_Panel_Thyrocare.pdf';
 
             const evaluated = buildEvaluatedReportSummary(parsed, `doc_${fixture}`, fileName);
@@ -129,6 +132,19 @@ function ResultsContent() {
 
         {/* Quick Demo Switcher */}
         <div className="flex items-center space-x-1.5 self-end sm:self-auto">
+          {(activeFixture === 'uploaded' || (typeof window !== 'undefined' && localStorage.getItem('saarthi_uploaded_report_name'))) && (
+            <button
+              onClick={() => loadData('uploaded')}
+              className={`px-2.5 py-1 rounded-md text-[11px] font-semibold transition-colors flex items-center space-x-1 ${
+                activeFixture === 'uploaded'
+                  ? 'bg-gradient-to-r from-sky-500 to-indigo-600 text-white shadow-sm'
+                  : 'bg-slate-800 text-slate-400 hover:text-white'
+              }`}
+            >
+              <Sparkles className="w-3 h-3 text-sky-300" />
+              <span>Uploaded Report</span>
+            </button>
+          )}
           <span className="text-slate-500 font-medium mr-1">Switch Sample:</span>
           <button
             onClick={() => loadData('mixed')}

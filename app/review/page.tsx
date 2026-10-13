@@ -72,6 +72,7 @@ function ReviewContent() {
   const handleProceed = () => {
     if (typeof window !== 'undefined') {
       localStorage.setItem('saarthi_active_candidate_rows', JSON.stringify(rows));
+      localStorage.setItem('saarthi_active_fixture_id', activeFixture);
     }
     router.push(`/results?fixture=${activeFixture}`);
   };
@@ -93,6 +94,19 @@ function ReviewContent() {
 
         {/* Fixture Selector Tabs */}
         <div className="flex items-center space-x-2 bg-slate-900 p-1.5 rounded-xl border border-slate-800 self-start sm:self-auto">
+          {(activeFixture === 'uploaded' || (typeof window !== 'undefined' && localStorage.getItem('saarthi_uploaded_report_name'))) && (
+            <button
+              onClick={() => loadFixtureRows('uploaded')}
+              className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors flex items-center space-x-1.5 ${
+                activeFixture === 'uploaded'
+                  ? 'bg-gradient-to-r from-sky-600 to-indigo-600 text-white shadow-sm'
+                  : 'text-slate-400 hover:text-white'
+              }`}
+            >
+              <Sparkles className="w-3.5 h-3.5 text-sky-300" />
+              <span>Uploaded Report</span>
+            </button>
+          )}
           <button
             onClick={() => loadFixtureRows('clean')}
             className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors ${

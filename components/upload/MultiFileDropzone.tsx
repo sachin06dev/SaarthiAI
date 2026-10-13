@@ -151,15 +151,15 @@ export function MultiFileDropzone() {
   const handleStartAnalysis = async () => {
     if (queue.length === 0) return;
     setIsProcessing(true);
-    setProcessingStatus('Running extraction & layout-aware parsing...');
+    setProcessingStatus('Initializing extraction pipeline...');
 
     const firstItem = queue[0];
     const sampleType = firstItem.sampleType || 'mixed';
 
     try {
-      // If user uploaded a real file (not demo), attempt live OCR endpoint
+      // If user uploaded a real file (not demo), run live Gemini Multimodal extraction
       if (!firstItem.docInfo.isSimulatedDemo) {
-        setProcessingStatus('Connecting to Cloud Vision OCR & Table Parser...');
+        setProcessingStatus('Analyzing report with Google Gemini Multimodal Vision...');
         const formData = new FormData();
         formData.append('file', firstItem.file);
         formData.append('documentId', firstItem.docInfo.documentId);
@@ -172,17 +172,37 @@ export function MultiFileDropzone() {
         if (res.ok) {
           const data = await res.json();
           if (data.rows && data.rows.length > 0) {
+            setProcessingStatus(`Successfully extracted ${data.rows.length} parameters! Finalizing...`);
             if (typeof window !== 'undefined') {
               localStorage.setItem('saarthi_active_candidate_rows', JSON.stringify(data.rows));
               localStorage.setItem('saarthi_active_fixture_id', 'uploaded');
+              localStorage.setItem('saarthi_uploaded_report_name', firstItem.file.name);
             }
-            router.push('/review?fixture=uploaded');
+            setTimeout(() => {
+              router.push('/review?fixture=uploaded');
+            }, 300);
             return;
+          } else {
+            throw new Error('No structured laboratory parameters could be identified from this document.');
           }
+        } else {
+          const errData = await res.json().catch(() => ({}));
+          throw new Error(errData.error || `Server extraction returned error ${res.status}`);
         }
       }
-    } catch (err) {
-      console.warn('Live OCR call encountered an issue, gracefully falling back to deterministic review:', err);
+    } catch (err: any) {
+      console.error('Extraction error:', err);
+      setErrors((prev) => [
+        ...prev,
+        {
+          id: `err_${Date.now()}`,
+          fileName: firstItem.file.name,
+          message: err?.message || 'Failed to extract laboratory report. Please check the file or try another image/PDF.',
+        },
+      ]);
+      setIsProcessing(false);
+      setProcessingStatus(null);
+      return;
     }
 
     // Default or sample fallback
@@ -191,6 +211,7 @@ export function MultiFileDropzone() {
       router.push(`/review?fixture=${sampleType}`);
     }, 400);
   };
+
 
   return (
     <div className="space-y-6">
