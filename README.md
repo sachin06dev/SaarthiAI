@@ -3,12 +3,21 @@
 > **"Understand your report. Prepare for the conversation. Leave the diagnosis to the doctor."**  
 > **Core Principle:** **AI explains. Rules compare. Doctors diagnose.**
 
+[![Live App](https://img.shields.io/badge/Live_App-saarthi--ai--team--sj2.vercel.app-0070F3?style=for-the-badge&logo=vercel)](https://saarthi-ai-team-sj2.vercel.app)
 [![Next.js 15](https://img.shields.io/badge/Next.js-15.1.12-black?style=for-the-badge&logo=next.js)](https://nextjs.org/)
 [![React 19](https://img.shields.io/badge/React-19.0.0-blue?style=for-the-badge&logo=react)](https://react.dev/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.9.3-3178C6?style=for-the-badge&logo=typescript)](https://www.typescriptlang.org/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.4.17-38B2AC?style=for-the-badge&logo=tailwind-css)](https://tailwindcss.com/)
 [![Tests](https://img.shields.io/badge/Vitest-50%2F50%20Passing-brightgreen?style=for-the-badge&logo=vitest)](https://vitest.dev/)
-[![Vercel Deployment](https://img.shields.io/badge/Deployed-Vercel-000000?style=for-the-badge&logo=vercel)](https://vercel.com/)
+[![Vercel Deployment](https://img.shields.io/badge/Deployed-Vercel-000000?style=for-the-badge&logo=vercel)](https://saarthi-ai-team-sj2.vercel.app)
+
+---
+
+## 🌐 Live Deployed Application
+
+🚀 **Live Production URL:** **[https://saarthi-ai-team-sj2.vercel.app](https://saarthi-ai-team-sj2.vercel.app)**
+
+> Experience SaarthiAI deployed live on Vercel with zero-install accessibility, multi-file report extraction, interactive 3D hero visualization, certified reference range evaluation, and bilingual Doubt Engine voice queries.
 
 ---
 
@@ -186,15 +195,15 @@ npm start
 
 ---
 
-## 🧪 Interactive Demo Scenarios
+## 🧪 Interactive Demo Scenarios (Click to Test Live)
 
-| Scenario | URL Route | Description |
+| Scenario | Live Production Route | Description |
 |---|---|---|
-| **1. Clean Digital CBC Report** | `/review?fixture=clean` | 100% verified extraction from a standard CBC report with printed reference ranges. |
-| **2. Mixed Metabolic Panel** | `/review?fixture=mixed` | Demonstrates out-of-range parameters (fasting glucose, SGPT), categorical `B+` blood group, and Indian population fallbacks. |
-| **3. Low-Confidence Scan** | `/review?fixture=uncertain` | Showcases transparent uncertainty badges, inline manual correction, and dynamic re-evaluation. |
-| **4. Safety Challenge (Doubt Engine)** | `/doubt-engine` | Test guardrails by asking: *"Can you prescribe medicine for my high cholesterol?"* — watch the instant safe refusal. |
-| **5. Doctor Consultation** | `/appointments` | Select a clinician, verify consent enforcement, and inspect the 48-hour access token audit log. |
+| **1. Clean Digital CBC Report** | [Open Scenario 1](https://saarthi-ai-team-sj2.vercel.app/review?fixture=clean) | 100% verified extraction from a standard CBC report with printed reference ranges. |
+| **2. Mixed Metabolic Panel** | [Open Scenario 2](https://saarthi-ai-team-sj2.vercel.app/review?fixture=mixed) | Demonstrates out-of-range parameters (fasting glucose, SGPT), categorical `B+` blood group, and Indian population fallbacks. |
+| **3. Low-Confidence Scan** | [Open Scenario 3](https://saarthi-ai-team-sj2.vercel.app/review?fixture=uncertain) | Showcases transparent uncertainty badges, inline manual correction, and dynamic re-evaluation. |
+| **4. Safety Challenge (Doubt Engine)** | [Open Doubt Engine](https://saarthi-ai-team-sj2.vercel.app/doubt-engine) | Test guardrails by asking: *"Can you prescribe medicine for my high cholesterol?"* — watch the instant safe refusal. |
+| **5. Doctor Consultation** | [Open Appointments](https://saarthi-ai-team-sj2.vercel.app/appointments) | Select a clinician, verify consent enforcement, and inspect the 48-hour access token audit log. |
 
 ---
 
